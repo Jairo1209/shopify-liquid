@@ -1,0 +1,12 @@
+{% if settings.age_check_enabled %}
+    <div id="age-check-overlay" class="age-popup">
+      <div class="age-popup-content">
+        <h2>{{ settings.age_check_title }}</h2>
+        <p>{{ settings.age_check_message }}</p>
+        <input type="date" id="birthdate" required>
+        <button id="verify-age">{{ settings.age_check_button }}</button>
+        <p id="age-check-error" style="color: red; display: none;">{{ settings.age_check_error }}</p>
+      </div>
+    </div>
+{% endif %}
+  

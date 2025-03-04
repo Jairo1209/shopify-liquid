@@ -34,6 +34,8 @@
     <script src="{{ 'details-disclosure.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'details-modal.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'search-form.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'age-check.js' | asset_url }}" defer></script>
+
 
     {%- if settings.animations_reveal_on_scroll -%}
       <script src="{{ 'animations.js' | asset_url }}" defer="defer"></script>
@@ -256,6 +258,8 @@
     {% endstyle %}
 
     {{ 'base.css' | asset_url | stylesheet_tag }}
+    {{ 'age-check.css' | asset_url | stylesheet_tag }}
+
     <link rel="stylesheet" href="{{ 'component-cart-items.css' | asset_url }}" media="print" onload="this.media='all'">
 
     {%- if settings.cart_type == 'drawer' -%}
@@ -306,6 +310,8 @@
     {%- if settings.cart_type == 'drawer' -%}
       {%- render 'cart-drawer' -%}
     {%- endif -%}
+
+    {% render 'age-checker' %}
 
     {% sections 'header-group' %}
 
@@ -363,6 +369,40 @@
         recipientFormCollapsed: `{{ 'recipient.form.collapsed' | t }}`,
         countrySelectorSearchCount: `{{ 'localization.country_results_count' | t: count: '[count]' }}`,
       };
+      document.getElementById('age-check-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+    
+        var birthdate = document.getElementById('birthdate').value;
+        var today = new Date();
+        var birthDateObj = new Date(birthdate);
+        var age = today.getFullYear() - birthDateObj.getFullYear();
+        var m = today.getMonth() - birthDateObj.getMonth();
+    
+        if (m < 0 || (m === 0 && today.getDate() < birthDateObj.getDate())) {
+          age--;
+        }
+    
+        if (age >= 18) {
+          // Sla de geboortedatum op in een cookie
+          document.cookie = "age_verified=true; path=/; max-age=" + 60*60*24*365; // 1 jaar geldig
+          document.getElementById('age-check-message').style.display = 'none';
+          alert('Toegang verleend, je bent oud genoeg!');
+        } else {
+          document.getElementById('age-check-message').style.display = 'block';
+          document.getElementById('age-check-message').textContent = 'Je moet minstens 18 jaar oud zijn om verder te gaan.';
+        }
+      });
+      window.onload = function() {
+        var ageVerified = document.cookie.indexOf('age_verified=true') !== -1;
+      
+        if (!ageVerified) {
+          // Toon de leeftijdschecker als de gebruiker nog niet geverifieerd is
+          document.getElementById('age-check-form').style.display = 'block';
+        } else {
+          // Verberg de leeftijdschecker als de gebruiker al geverifieerd is
+          document.getElementById('age-check-form').style.display = 'none';
+        }
+      }
     </script>
 
     {%- if settings.predictive_search_enabled -%}
