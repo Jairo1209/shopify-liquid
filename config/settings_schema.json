@@ -1451,5 +1451,40 @@
         "default": "scheme-1"
       }
     ]
-  }
+  },
+    {
+      "name": "Leeftijdscontrole instellingen",
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "age_check_enabled",
+          "label": "Leeftijdscontrole inschakelen",
+          "default": true
+        },
+        {
+          "type": "text",
+          "id": "age_check_title",
+          "label": "Popup Titel",
+          "default": "Leeftijdsverificatie"
+        },
+        {
+          "type": "text",
+          "id": "age_check_message",
+          "label": "Bericht in popup",
+          "default": "Je moet 18 jaar of ouder zijn om deze site te bezoeken. Vul je geboortedatum in."
+        },
+        {
+          "type": "text",
+          "id": "age_check_button",
+          "label": "Verzendknop tekst",
+          "default": "Verifiëren"
+        },
+        {
+          "type": "text",
+          "id": "age_check_error",
+          "label": "Foutmelding bij te jonge leeftijd",
+          "default": "Je moet minstens 18 jaar oud zijn om verder te gaan."
+        }
+      ]
+    }  
 ]
