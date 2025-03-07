@@ -1160,6 +1160,9 @@
         "image_2": {
           "label": "Image 2"
         },
+        "image_3": {
+          "label": "Image 3"
+        },
         "image_overlay_opacity": {
           "label": "Overlay opacity"
         },
